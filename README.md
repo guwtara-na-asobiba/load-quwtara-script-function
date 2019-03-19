@@ -1,2 +1,3 @@
-# load-quwtara-script-function
-storageに置かれたスクリプトをロードするfunction
+# quwtara-functions
+
+quwtaraで使うfunctions
