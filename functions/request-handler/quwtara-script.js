@@ -11,12 +11,12 @@ const config = functions.config().scripts || {
  * 指定された名前のscriptファイルを返す。
  */
 module.exports = functions.https.onRequest((req, res) => {
-  const scriptName = req.query.name;
+  const scriptName = (req.query.name || '').replace(/[^a-zA-Z0-9\-]/g, '');
   if (!scriptName) {
     res.sendStatus(400);
     return;
   }
-  const version = req.query.v || 'latest';
+  const version = (req.query.v || '').replace(/[^0-9\.]/g, '') || 'latest';
   const path = `scripts/${scriptName}/${scriptName}-${version}.min.js`;
   const bucket = storage.bucket(config.bucket.name);
   const file = bucket.file(path);
