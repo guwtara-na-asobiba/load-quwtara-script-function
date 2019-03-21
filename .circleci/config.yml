@@ -51,4 +51,6 @@ workflows:
             - lint
           filters:
             branches:
-              only: master
+              only: 
+                - master
+                - feature/bugfix-missing-token
