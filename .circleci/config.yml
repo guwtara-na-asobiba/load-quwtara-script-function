@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  setup: &exector
+    working_directory: ~/work
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore npm dependencies
+          key: npm-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION_NPM }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          name: Cache npm dependencies
+          key: npm-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION_NPM }}
+          paths:
+            - ~/work/node_modules
+      - persist_to_workspace: &save_workspace
+          root: .
+          paths:
+            - ./*
+  lint:
+    <<: *exector
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run Eslint
+          command: npm run lint
+  deploy:
+    <<: *exector
+    steps:
+      - attach_workspace:
+          at: .
+      - run: npm install --save firebase-tools
+      - run:
+          name: Deploy to Firebase Functions.
+          command: npm run deploy
+workflows:
+  version: 2
+  deploy_to_functions:
+    jobs:
+      - setup
+      - lint:
+          requires:
+            - setup
+      - deploy:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: master

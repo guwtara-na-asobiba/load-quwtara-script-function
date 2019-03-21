@@ -1,0 +1,27 @@
+{
+  "name": "quwtara-functions",
+  "version": "1.0.0",
+  "description": "quwtaraで使うfunctions",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint functions/",
+    "deploy": "firebase deploy --only functions",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guwtara-na-asobiba/quwtara-functions.git"
+  },
+  "author": "myamyu",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/guwtara-na-asobiba/quwtara-functions/issues"
+  },
+  "homepage": "https://github.com/guwtara-na-asobiba/quwtara-functions#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-google": "^0.12.0"
+  },
+  "private": true,
+  "dependencies": {}
+}
