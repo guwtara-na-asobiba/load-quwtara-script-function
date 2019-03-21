@@ -1,7 +1,5 @@
 const functions = require('firebase-functions');
-const express = require('express');
 const admin = require('firebase-admin');
-const app = express();
 const storage = admin.storage();
 const config = functions.config().scripts || {
   bucket: {
@@ -9,26 +7,29 @@ const config = functions.config().scripts || {
   },
 };
 
-app.get('', (req, res) => {
-  res.sendStatus(404);
-});
-
 /**
  * 指定された名前のscriptファイルを返す。
  */
-app.get('/:name', (req, res) => {
-  const scriptName = req.params.name;
+module.exports = functions.https.onRequest((req, res) => {
+  const scriptName = req.query.name;
+  if (!scriptName) {
+    res.sendStatus(400);
+    return;
+  }
+  const version = req.query.v || 'latest';
+  const path = `scripts/${scriptName}/${scriptName}-${version}.min.js`;
   const bucket = storage.bucket(config.bucket.name);
-  const file = bucket.file(`scripts/${scriptName}/index.js`);
+  const file = bucket.file(path);
   const errHandle = (err) => {
     console.error('エラーが発生', err);
-    res.sendStatus(500);
+    res.sendStatus(err.httpStatus || 500);
   };
   file.exists()
       .then((exists) => {
         if (!exists[0]) {
-          res.sendStatus(404);
-          throw new Error(`「${scriptName}」なんてないよ`);
+          const err = new Error(`「${path}」なんてないよ`);
+          err.httpStatus = 404;
+          throw err;
         }
         return file.download();
       }, errHandle)
@@ -38,5 +39,3 @@ app.get('/:name', (req, res) => {
         res.status(200).send(buf.toString('utf-8', 0, buf.length));
       }, errHandle);
 });
-
-module.exports = functions.https.onRequest(app);
