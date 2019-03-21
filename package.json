@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "quwtaraで使うfunctions",
   "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
-    "lint": "eslint functions/",
-    "deploy": "firebase deploy --only functions --token \"$FIREBASE_TOKEN\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,10 +18,5 @@
     "url": "https://github.com/guwtara-na-asobiba/quwtara-functions/issues"
   },
   "homepage": "https://github.com/guwtara-na-asobiba/quwtara-functions#readme",
-  "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-google": "^0.12.0"
-  },
-  "private": true,
-  "dependencies": {}
+  "private": true
 }
