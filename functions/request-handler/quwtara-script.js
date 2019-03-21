@@ -34,8 +34,10 @@ module.exports = functions.https.onRequest((req, res) => {
         return file.download();
       }, errHandle)
       .then((buf) => {
-        res.set('Cache-Control', `public, max-age=${12*60}, s-maxage=${24*60}`);
-        res.set('Content-Type', 'application/javascript; charset=utf-8');
+        res.set('Cache-Control',
+            `public, max-age=${12*60*60}, s-maxage=${24*60*60}`);
+        res.set('Content-Type',
+            'application/javascript; charset=utf-8');
         res.status(200).send(buf.toString('utf-8', 0, buf.length));
       }, errHandle);
 });
