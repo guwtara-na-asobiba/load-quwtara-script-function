@@ -36,11 +36,11 @@ jobs:
           at: .
       - run: npm install --save firebase-tools
       - run:
-          name: Deploy to Firebase Hosting.
+          name: Deploy to Firebase Functions.
           command: npm run deploy
 workflows:
   version: 2
-  deploy_to_hosting:
+  deploy_to_functions:
     jobs:
       - setup
       - lint:
