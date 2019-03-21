@@ -37,7 +37,7 @@ jobs:
       - run: npm install --save firebase-tools
       - run:
           name: Deploy to Firebase Functions.
-          command: firebase deploy --only functions --token "$FIREBASE_TOKEN"
+          command: npx firebase deploy --only functions --token "$FIREBASE_TOKEN"
 workflows:
   version: 2
   deploy_to_functions:
