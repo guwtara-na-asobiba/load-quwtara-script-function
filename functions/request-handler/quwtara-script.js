@@ -17,7 +17,8 @@ module.exports = functions.https.onRequest((req, res) => {
     res.sendStatus(400);
     return;
   }
-  const version = (req.query.v || '').replace(/[^0-9\.]/g, '') || 'latest';
+  const version = (req.query.v || '')
+      .replace(/[^a-zA-Z0-9\-\.]/g, '') || 'latest';
   const path = `scripts/${scriptName}/${scriptName}-${version}.min.js`;
   const bucket = storage.bucket(config.bucket.name);
   const file = bucket.file(path);
